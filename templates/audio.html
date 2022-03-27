@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+  
+{% block content %}
+<style>
+
+
+h1 {
+  text-align: center;
+  color: block;
+  margin-top: 100px;
+}
+.containerer {
+  width: 60%;
+  margin: auto;
+  margin-top:50px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  border: 3px solid black;
+  padding: 1rem;
+}
+.list {
+  list-style: none;
+  margin-left: -1rem;
+}
+.ply {
+  height: 20px;
+  width: 150px;
+}
+.song {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid #ccc;
+  margin-bottom: 10px;
+  align-items: baseline;
+  font-size: 20px;
+}
+</style>
+
+<script>
+
+</script>
+
+
+
+{% for cat in audio_kid %}
+<h1>{{ cat.name}}</h1>
+<div class="containerer">
+  <ul class="list">
+{% for audio in audio %}
+{% if cat.name == audio.audio_kid.name %}
+
+
+
+    <li class="song"><span>{{ audio.name }}</span><audio src="{{ audio.music.url }}" controls class="ply"></li>
+
+{% endif %}
+{% endfor %}
+	</ul>
+    </div>
+
+{% endfor %}
+
+    
+
+  
+
+                                
+                                
+                       
+                                
+											
+											
+									
+                                    
+                                    
+									
+		
+{% endblock content%}

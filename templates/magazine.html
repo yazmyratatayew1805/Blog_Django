@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+  
+{% block content %}
+
+
+<div class="main-content-wrapper section-padding-100-0 " style="margin-top:150px;"> 
+        <div class="container-fluid justify-content-center col-lg-12">
+
+            <!-- Intro News Tabs Area -->
+
+            <div class="col-md-12">
+                <div class="row justify-content-center">
+                    <!-- Intro News Tabs Area -->
+                    <div class="col-10 col-lg-10">
+                        <div class="card mt-10">                     
+                                                                         
+                        <div class="row">
+                            {% for magazine in queryset %}
+                            
+                            
+                            <div class="col-2 mt-2 ml-50">
+                                <a href="{{ magazine.pdf.url }}">
+                                    <img class="img-fluid content-img-border mg-img mt-2" src="{{ magazine.image.url }}" data-src="{{ paper.image.url }}" alt="" style="max-height: 450px;"></a>
+                                <h4 style="text-align: center">{{ magazine.date }}</h4>
+                            </div>
+                            {% endfor %}                            
+                                      
+                        </div>                    
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination pagination-template d-flex justify-content-center">
+
+           {% if queryset.has_previous %}
+          <li class="page-item"><a href="?page={{ queryset.previous_page_number }}" class="page-link"> <i class="fa fa-angle-left"></i></a></li>                 
+           {% endif %}
+
+           {% for i in queryset.paginator.page_range %}
+           {% if queryset.number == i %}
+           <li class="page-item"><a href="?page={{ i }}" class="page-link active ">{{ i }}</a></li>             
+           {% else %}
+             <li class="page-item"><a href="?page={{ i }}" class="page-link ">{{ i }}</a></li>
+           {% endif %}
+         {% endfor %}        
+
+          {% if queryset.has_next %}
+          <li class="page-item"><a href="?page={{ queryset.next_page_number }}" class="page-link"> <i class="fa fa-angle-right"></i></a></li>
+          {% endif %}
+
+        </ul>
+
+   </nav>
+
+                          
+
+
+
+{% endblock content%}

@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+{% load static %}
+  
+{% block content %}
+
+<script>
+var videoswiper = new Swiper($(".videoswiper"), {
+  autoplay: 6000,
+  pagination: false,
+  slidesPerView: 3,
+  spaceBetween: 0,
+  loop: false,
+  grabCursor: false,
+  breakpoints: {
+    1280: {
+      slidesPerView: 3
+    },
+    800: {
+      slidesPerView: 2
+    },
+    640: {
+      slidesPerView: 1
+    }
+  },
+  nextButton: ".videoswiper .swiper-button-next",
+  prevButton: ".videoswiper .swiper-button-prev",
+  onPaginationRendered: function(swiper, paginationContainer) {
+    var numberOfBullets = swiper.params.loop
+      ? Math.ceil(
+          (swiper.slides.length - swiper.loopedSlides * 2) /
+            swiper.params.slidesPerGroup
+        )
+      : swiper.snapGrid.length;
+    //console.log('numberOfBullets: '+numberOfBullets);
+    if (numberOfBullets < 2) {
+      swiper.paginationContainer.css({
+        display: "none"
+      });
+    } else {
+      swiper.paginationContainer.css({
+        display: "block"
+      });
+    }
+  }
+});
+$('.videoswiper .swiper-slide').each(function(index, element) {
+  var href = $(element).find('.card-img a').attr('href');
+  $(element).magnificPopup({
+    items: {
+      src: href
+    },
+    type: 'iframe'
+  });
+});
+
+/*$(".popup-youtube, .popup-vimeo, .popup-gmaps").magnificPopup({
+  disableOn: 700,
+  type: "iframe",
+  mainClass: "mfp-fade",
+  removalDelay: 160,
+  preloader: false,
+  fixedContentPos: false
+});*/
+
+</script>
+
+<style>
+video {
+    max-width: 100%;
+}
+
+.video-wrapper {
+    display: inline-block;
+    position: relative;
+    z-index: 100;
+}
+
+.video-controls {
+    opacity: 0;
+    transition: opacity .35s ease-out;
+}
+
+.video-controls--show {
+    opacity: 1;
+}
+
+[data-media] {
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+}
+
+[data-media="play-pause"] {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 1;
+  
+    transition: opacity .35s ease-out;
+    
+    .paused & {
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 30px 0 30px 52px;
+        border-color: transparent transparent transparent #fff;
+    }
+    .playing & {
+        width: 52px;
+        height: 60px;
+        border: 16px solid #fff;
+        border-top: none;
+        border-bottom: none;
+    }
+    .hide-playhead & {
+        opacity: 0;
+    }
+}
+
+[data-media="mute-unmute"] {
+    display: block;
+    width: 15px;
+    height: 15px;
+    background-color: red;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+</style>
+<h1 style="margin-top:200px; margin-left:800px;" >Wideolar</h1>
+{% for cat in video_kid %}
+<div class="h5" style="margin-left: 900px;"  >
+         {{ cat.name }}
+    </div>
+    {% for video in video %}
+    
+    {% if cat.name == video.video_kid.name %}
+
+<div class="video-wrapper" style="margin-left:70px;">
+    <video width="540" height="260" controls>
+        <source src="{{ video.play.url }}" type="video/mp4"></source>
+        <source src="{{ video.play.url }}" type="video/ogg"></source>
+        {{ video.name }} <code>video</code> tag.
+    </video>
+    <div class="video-controls">
+        <button data-media="play-pause"></button>
+        <button data-media="mute-unmute"></button>
+    </div>
+</div>
+{% endif %}
+
+{% endfor %}
+{% endfor %}
+{% comment %} <div class="bg-white " style="padding: 1.25rem; margin-top: 80px;">
+{% for cat in video_kid %}
+    <div class="h5">
+         {{ cat.name }}
+    </div>
+    <hr>
+    <div class="row">
+    {% for video in video %}
+    
+    {% if cat.name == video.video_kid.name %}
+
+    
+    
+        <div class="col-lg-2 col-sm-4 mt-2">
+            <a class="afterglow" href="{{ video.play.url }}">
+                <div class="hovereffect">
+                    <img class="video-image mg-img img-fluid col-md-8 col-lg-8" src="{{ video.picture.url }}" alt="{{ video.name }}">
+                    <img src="{% static 'img/Play-Icon-Logo-4.svg' %}" alt="{{ video.name }}" class="play-button"> 
+                </div>
+                <h4>{{ video.name }}</h4>
+            </a>
+            <video id="{{ video.play.url }}" width="856" height="480" data-overscale="false" preload="none" class="d-none afterglow-lightboxplayer" data-autoresize="fit">
+                <source type="video/mp4" src="{{ video.play.url }}">
+            </video>
+        </div>
+        
+    
+{% endif %}
+
+{% endfor %}
+</div>
+{% endfor %}
+
+</div>  {% endcomment %}
+
+
+
+
+{% endblock content%}

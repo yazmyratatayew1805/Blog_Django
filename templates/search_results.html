@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+  
+{% block content %}
+
+<style>
+
+.table-fixed{
+  width: 100%;
+  background-color: #f3f3f3;
+  tbody{
+    height:200px;
+    overflow-y:auto;
+    width: 100%;
+    }
+  thead,tbody,tr,td,th{
+    display:block;
+  }
+  tbody{
+    td{
+      float:left;
+    }
+  }
+  thead {
+    tr{
+      th{
+        float:left;
+       background-color: #f39c12;
+       border-color:#e67e22;
+      }
+    }
+  }
+}
+</style>
+
+
+
+
+
+<div class="container" style="margin-top:100px;">
+  <table class="table table-fixed">
+    <thead>
+      <tr>
+
+        <th class="col-xs-3">Surat</th>
+        <th class="col-xs-3">Habar</th>
+        <th class="col-xs-6">Sene</th>
+      </tr>
+
+    </thead>
+    <tbody>
+{% for post in queryset %}
+      <tr>
+        <td class="col-xs-3"><a href="{{ post.get_absolute_url }}"><img src="{{ post.thumbnail.url }}" style="height:200px; weight:px;" class="img-fluid"></a></td>
+        <td class="col-xs-3"><a href="{{ post.get_absolute_url }}">{{ post.title}}</a></td>
+        <td class="col-xs-6">{{ post.timestamp|timesince}} öň</td>
+      </tr>
+{% endfor %}
+      
+    </tbody>
+  </table>
+</div>
+{% endblock content%}

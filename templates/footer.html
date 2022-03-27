@@ -1,0 +1,65 @@
+ {% load static %}
+ <footer class="main-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            
+            <div class="contact-details">
+              <p>11/2  212  </p>
+              <p>Tel: 53-84</p>
+              <p>Email: <a href="#">ADU@gmail.com</a></p>
+              <ul class="social-menu">
+                <li class="list-inline-item"><a href="#"><i class="fa fa-facebook"></i></a></li>
+                <li class="list-inline-item"><a href="#"><i class="fa fa-twitter"></i></a></li>
+                <li class="list-inline-item"><a href="#"><i class="fa fa-instagram"></i></a></li>
+                <li class="list-inline-item"><a href="#"><i class="fa fa-behance"></i></a></li>
+                <li class="list-inline-item"><a href="#"><i class="fa fa-pinterest"></i></a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="menus d-flex">
+              <ul class="list-unstyled">
+                <li> <a href="#">Postlar</a></li>
+                <li> <a href="#">Suratlar</a></li>
+                <li> <a href="#">Wideolar</a></li>
+                <li> <a href="#">Çat </a></li>
+              </ul>
+              <ul class="list-unstyled">
+                <li> <a href="#">Gazetlar </a></li>
+                <li> <a href="#">Žurnallar</a></li>
+                <li> <a href="#">Ders+</a></li>
+                <li> <a href="#">Kitaphana</a></li>
+              </ul>
+            </div>
+          </div>
+              
+
+           <div class="col-md-4">
+           {% for post in most_recent %}
+            <div class="latest-posts"><a href="{{ post.get_absolute_url }}">
+                <div class="post d-flex align-items-center">
+                  <div class="image"><img src="{{ post.thumbnail.url }}" alt="..." class="img-fluid"></div>
+                  <div class="title"><strong>{{ post.title}}</strong><span class="date last-meta">{{ post.timestamp }}</span></div>
+                </div> </div>
+            {% endfor %} 
+          </div> 
+              
+
+
+
+        </div>
+      </div>
+      <div class="copyrights">
+        <div class="container">
+          <div class="row">
+            
+            <div class="col-md-7 text-right">
+              <p> <a href="#" class="text-white">Powered by ADU </a>  
+                
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>

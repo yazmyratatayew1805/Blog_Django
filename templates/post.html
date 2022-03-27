@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+{% load static %}
+  
+{% block content %}
+
+<style>
+/**----DELETE DOWN----**/
+@import url('https://fonts.googleapis.com/css?family=Anton');
+
+p {
+  margin-bottom: -20px;
+  color: white;
+}
+
+
+
+
+
+.like-button--active {
+    position: relative;
+    animation-duration: .8s;
+    -webkit-animation-timing-function: ease;
+    animation-timing-function: ease;
+    transform-origin: 0% 0%;
+}
+.like-button-up.like-button--active {
+  animation-name: like-bounce-up;
+  color:#4BBBFF;
+}
+.like-button-down.like-button--active {
+  animation-name: like-bounce-down;
+  color:#FF5050;
+}
+</style>
+
+<script>
+$('.like-button').click(function() {  
+   	$(this).parent().find('.like-button').not(this).removeClass('like-button--active');
+   	$(this).toggleClass('like-button--active');
+});
+
+
+</script>
+
+
+    <div class="container">
+      <div class="row " style="margin-top: 10%;">
+        <!-- Latest Posts -->
+        <main class="post blog-post col-lg-8"> 
+          <div class="container">
+            <div class="post-single">
+              <div class="post-thumbnail"><img src="{{ post.thumbnail.url }}" alt="..." class="img-fluid"></div>
+              <div class="post-details">
+                <div class="post-meta d-flex justify-content-between">
+                
+                <div class="category">
+                {% for cat in post.categories.all %}
+                  <a href="#">{{ cat}}</a>
+                {% endfor %} 
+                </div>
+               
+                </div>  
+                
+                <h1>{{ post.title }}<a href="#"><i class="fa fa-bookmark-o"></i></a></h1>
+                <div class="post-footer d-flex align-items-center flex-column flex-sm-row"><a href="#" class="author d-flex align-items-center flex-wrap">
+                    <div class="avatar"><img src="{{ post.author.profile_picture.url }}" alt="..." class="img-fluid"></div>
+                    <div class="title"><span>{{ post.author.user.username }}</span></div></a>
+                  <div class="d-flex align-items-center flex-wrap">       
+                    <div class="date"><i class="icon-clock"></i> {{ post.timestamp|timesince }} öň </div>
+                    <div class="views"><i class="icon-eye"></i> {{ post.view_count }}</div>
+                    <div class="comments meta-last"><i class="icon-comment"></i>{{ post.comment_count }}</div>
+
+                    
+                    <form action="{% url 'like_post' post.pk %} " method="POST" style="margin-left:10px;">
+                    {% csrf_token %}
+                    <button type="submit", name="post_id", value="{{ post.id }}", class="like-button like-button-up btn btn-success"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></button>   {{ likes }} 
+                    </form>
+                     <form action="{% url 'desLikeView' post.pk %} " method="POST" style="margin-left:10px;">
+                    {% csrf_token %}
+                    <button type="submit", name="post_id", value="{{ post.id }}", class="like-button like-button-down btn btn-danger"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></button>   {{ dislikes }} 
+                    </form>
+                    
+
+
+                  </div>
+                </div>
+                <div class="post-body">
+                {{ post.overview}}
+                </div>
+                <div class="post-body">
+                {{ post.content | safe}}
+                </div>
+                <div class="posts-nav d-flex justify-content-between align-items-stretch flex-column flex-md-row">
+                    {% if post.previous_post %}
+           
+                <a href="{{ post.previous_post.get_absolute_url }}" class="prev-post text-left d-flex align-items-center">                
+                    <div class="icon prev"><i class="fa fa-angle-left"></i></div>                    
+                    <div class="text"><strong class="text-primary">Öňki</strong>
+                      <h6>{{ post.previous_post.title }}</h6>
+                    </div>
+                </a>
+                    {% endif %}
+
+                    {% if post.next_post %}
+                    <a href="{{ post.next_post.get_absolute_url }}" class="next-post text-right d-flex align-items-center justify-content-end">
+                    <div class="text"><strong class="text-primary">Indiki</strong>
+                      <h6>{{ post.next_post.title }}</h6>
+                    </div>  
+                    <div class="icon next"><i class="fa fa-angle-right">  </i>  </div>
+                    </a>
+                    {% endif %}
+
+                    </div>
+                <div class="post-comments">
+                  <header>
+                    <h3 class="h6">Goýlan teswirler<span class="no-of-comments">({{ post.comments.count }})</span></h3>
+                  </header>
+                   {% for comment in post.get_comments %}
+                  <div class="comment">
+                    <div class="comment-header d-flex justify-content-between">
+                      <div class="user d-flex align-items-center">
+                        <div class="image">
+                        {% if comment.user.author %}
+                        <img src="{{ comment.user.author.profile_picture.url }}" alt="..." class="img-fluid rounded-circle"></div>
+                        {% else %}
+                        <img src="{% static 'img/user.svg' %}" alt="..." class="img-fluid rounded-circle"></div> 
+                        {% endif %}
+                          
+                        <div class="title"><strong>{{ comment.user.username }}</strong><span class="date">{{ comment.timestamp|timesince }} </span></div>
+                      </div>
+                    </div>
+                    <div class="comment-body">
+                      <p>{{ comment.Teswir }}</p>
+                    </div>
+                  </div>
+                   {% endfor %}
+                </div>
+                {% if request.user.is_authenticated %}
+                
+                <div class="add-comment">
+                  <header>
+                    <h3 class="h6">Pikiriňiz bilen paýlaşyň!</h3>
+                  </header>
+                  <form method="POST" action="." class="commenting-form">
+                  {% csrf_token %}                  
+                    <div class="row">
+                                         
+                      <div class="form-group col-md-12">
+                      {{ form }}
+                        
+                      </div>
+                      <div class="form-group col-md-12">
+                        <button type="submit" class="btn btn-secondary">Teswir goý!</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                  {% else %}
+                <a href="{% url 'account_login' %}" class="btn btn-primary">Teswir goýmak üçin ulgama gir!</a>
+                  {% endif %}
+              </div>
+            </div>
+          </div>
+        </main>
+        
+        {% include 'sidebar.html' with most_recent=most_recent category_count=category_count %} 
+      </div>
+    </div>
+{% endblock content%}

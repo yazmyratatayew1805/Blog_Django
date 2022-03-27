@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+  <script>
+
+
+</script>
+
+<style>
+	body{  
+     
+			text-align:center;	
+      
+			padding: 1% 0;
+      background-image:url('');
+   
+}
+   h1{
+      
+      font-size :2.4em;
+      border-style: solid;
+      border-width: 2px;      
+      border-radius: 20px;
+      color: black;
+}
+  
+  h2{ 
+      font-size: 1.5em;
+      color: black;
+  }
+    
+    p {
+      font-family: arial; 
+      color: black;
+    }        
+			 		
+		img	{
+		
+			width: 23%;
+			margin: 1%;
+			transition: all 2s, transform .5s,box-shadow .5s;
+		
+		}	
+		img:hover	{
+			box-shadow: 12px 12px 25px rgba(0,0,0,.6);
+			transform: scale(1.02);			
+		}			
+		img:focus {
+			width: 46%;
+			box-shadow: 18px 18px 35px rgba(0,0,0,.7);
+			transform:none;		
+		}
+@media only screen and (max-width: 950px){ 
+  img {
+    width: 37%;    
+  }
+
+@media only screen and (max-width: 600px){
+    img {
+      width: 65%;
+    }
+  img:focus {
+    width: 100%;
+    margin: 20px 0;
+  }
+  
+</style>
+ 
+    
+{% for cat in foto_kat %}
+		<h2 style="margin-top:100px;">{{cat.name}}</h2>
+		<p>	Suraty ulaltmak üçin suraty ýüzüne basyň!</p>
+        
+	{% for foto in fotolar %}
+{% if cat.name == foto.fg.name %}
+<img tabindex="1" src="{{ foto.image.url }}" alt="{{ foto.name }}">
+    {% endif %}
+{% endfor %} 
+{% endfor %} 
+	
+
+{% comment %} 
+<section class="gallery no-padding" style="margin-top:150px;">
+    
+{% for cat in foto_kat %}
+<h4>{{cat.name}}</h4>
+
+  <div class="row">
+{% for foto in fotolar %}
+{% if cat.name == foto.fg.name %}
+
+    
+        <div class="mix col-lg-3 col-md-3 col-sm-6">
+            <div class="item">
+                <a href="{{ foto.image.url }}" data-fancybox="gallery" class="image"><img src="{{ foto.image.url }}" alt="..." class="img-fluid">
+                    <div class="overlay d-flex align-items-center justify-content-center"> {{ foto.name }} </div>
+                </a> 
+            </div>
+        </div> 
+         
+
+{% endif %}
+{% endfor %}   
+ </div>   
+{% endfor %} 
+    
+</section> {% endcomment %}
+
+
+
+{% endblock content%}
